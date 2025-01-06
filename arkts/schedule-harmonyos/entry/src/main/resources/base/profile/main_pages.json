@@ -1,0 +1,11 @@
+{
+  "src": [
+    "pages/Index",
+    "pages/Register",
+    "pages/LoginPage",
+    "pages/ScheduleManagementPage",
+    "pages/ScheduleListPage",
+    "pages/ChangePasswordPage",
+    "pages/MyCoursePage"
+  ]
+}

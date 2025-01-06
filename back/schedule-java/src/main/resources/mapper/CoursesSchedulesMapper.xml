@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schedule.mapper.CoursesSchedulesMapper">
+
+    <select id="getCourseScheduleInfo" resultType="com.example.schedule.vo.CourseScheduleVO">
+        SELECT cs.id,
+               u.user_id,
+               u.username,
+               cs.course_id,
+               c.course_name,
+               c.course_code,
+               cs.week_day,
+               -- 使用 CASE 语句将 period 映射为对应的星期几中文名称
+               CASE cs.week_day
+                   WHEN 1 THEN '星期一'
+                   WHEN 2 THEN '星期二'
+                   WHEN 3 THEN '星期三'
+                   WHEN 4 THEN '星期四'
+                   WHEN 5 THEN '星期五'
+                   WHEN 6 THEN '星期六'
+                   WHEN 7 THEN '星期日'
+                   ELSE '未知'
+                   END AS week_day_label,
+               cs.period,
+               cs.teacher_id,
+               cs.location
+        FROM courses_schedules cs
+                 LEFT JOIN courses c ON c.id = cs.course_id
+                 LEFT JOIN users u ON u.user_id = cs.teacher_id
+        WHERE cs.teacher_id = #{teacherId}
+        <if test="weekDay != null">
+            and cs.week_day = #{weekDay}
+        </if>
+    </select>
+</mapper>
